@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Мой планер</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+    <svg id="themeIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"></svg>
+    <span class="toggle-label">тема</span>
+</button>
+
+<div id="petals-container"></div>
+<div id="stars-container"></div>
+
+<svg class="corner-branch top-right" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200 0 Q 170 40 130 70 Q 90 100 50 140 Q 30 160 20 190" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <path d="M130 70 Q 120 55 125 45 Q 140 50 130 70" fill="currentColor" opacity="0.35"/>
+    <path d="M100 95 Q 85 85 88 72 Q 105 78 100 95" fill="currentColor" opacity="0.35"/>
+</svg>
+
+<img class="pixel-cat" src="cat.gif" alt="Котик">
+
+<nav class="main-menu">
+    <button class="menu-btn active" data-page="sf" onclick="switchPage('sf')">SF</button>
+    <button class="menu-btn" data-page="pots" onclick="switchPage('pots')">Три копилки</button>
+</nav>
+
+<!-- ========== SF ========== -->
+<div id="page-sf" class="page active">
+    <div class="planner planner-wide sf-page">
+        <div class="day-header">
+            <div>
+                <h1 class="day-title">SF</h1>
+                <div class="day-subtitle">ежедневная работа над собой</div>
+            </div>
+            <div class="day-note"><span>✦</span> Дисциплина важнее мотивации</div>
+        </div>
+
+        <div class="sf-hero">
+            <div class="sf-tile">
+                <div class="sf-tile-value" id="sfTotal">0</div>
+                <div class="sf-tile-label">всего дней</div>
+            </div>
+            <div class="sf-tile">
+                <div class="sf-tile-value" id="sfMonth">0</div>
+                <div class="sf-tile-label">в этом месяце</div>
+            </div>
+            <div class="sf-tile">
+                <div class="sf-tile-value" id="sfStreak">0</div>
+                <div class="sf-tile-label">дней подряд</div>
+            </div>
+            <div class="sf-tile">
+                <div class="sf-tile-value" id="sfBest">0</div>
+                <div class="sf-tile-label">лучший streak</div>
+            </div>
+        </div>
+
+        <div class="stats-block">
+            <div class="sf-calendar-header">
+                <button class="sf-nav-btn" onclick="changeSFMonth(-1)">‹</button>
+                <div class="sf-month-label" id="sfMonthLabel">Месяц</div>
+                <button class="sf-nav-btn" onclick="changeSFMonth(1)">›</button>
+            </div>
+            <div class="sf-weekdays">
+                <div>ПН</div><div>ВТ</div><div>СР</div><div>ЧТ</div><div>ПТ</div><div>СБ</div><div>ВС</div>
+            </div>
+            <div class="sf-calendar" id="sfCalendar"></div>
+        </div>
+
+        <div class="stats-block">
+            <div class="stats-block-title">Прогресс к цели 100 дней</div>
+            <div class="big-progress">
+                <div class="big-progress-fill" id="sfProgressFill"></div>
+                <div class="big-progress-label" id="sfProgressLabel">0 / 100</div>
+            </div>
+        </div>
+
+        <button class="reset-btn" onclick="resetSF()">сбросить SF</button>
+        <button class="restore-btn" id="sfRestoreBtn" onclick="restoreSF()">вернуть прогресс</button>
+
+        <div class="day-footer">✦ SF — это не спринт, это марафон ✦</div>
+    </div>
+</div>
+
+<!-- ========== ТРИ КОПИЛКИ ========== -->
+ <div id="page-pots" class="page">
+    <div class="planner planner-wide pots-page">
+        <div class="day-header">
+            <div>
+                <h1 class="day-title">Три копилки</h1>
+                <div class="day-subtitle">накопления · инвестиции · благотворительность</div>
+            </div>
+            <div class="day-note"><span>✦</span> Деньги любят счёт и цель</div>
+        </div>
+
+        <div class="stats-block">
+            <div class="pots-scroll">
+                <table class="pots-table">
+                    <thead>
+                        <tr>
+                            <th class="pots-month-head">Месяц</th>
+                            <th>Накопления</th>
+                            <th>Инвестиции</th>
+                            <th>Благотворительность</th>
+                        </tr>
+                    </thead>
+                    <tbody id="potsBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="pots-month-cell pots-total-label">Итого</td>
+                            <td class="pots-total" id="potsTotalSave">0 ₽</td>
+                            <td class="pots-total" id="potsTotalInvest">0 ₽</td>
+                            <td class="pots-total" id="potsTotalCharity">0 ₽</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="stats-block">
+            <div class="stats-block-title">Общий итог</div>
+            <div class="pots-grand" id="potsGrandTotal">0 ₽</div>
+        </div>
+
+        <button class="reset-btn" onclick="resetPots()">сбросить данные</button>
+        <button class="restore-btn" id="potsRestoreBtn" onclick="restorePots()">вернуть данные</button>
+
+        <div class="day-footer">✦ Каждый рубль — шаг к цели ✦</div>
+    </div>
+</div>
+
+</body>
+</html>
