@@ -1,0 +1,9 @@
+{
+  "name": "Мой планер",
+  "short_name": "Планер",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#e2dae7",
+  "theme_color": "#8c9657"
+}
